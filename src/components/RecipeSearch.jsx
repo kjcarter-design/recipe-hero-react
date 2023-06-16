@@ -13,15 +13,15 @@ import { RecipeContext } from './context/RecipeContext';
 import useFetchRecipes from '../hooks/useFetchRecipes';
 
 export default function RecipeSearch() {
-  const { state, dispatch } = useContext(RecipeContext);
-  const [ingredients, setIngredients] = useState([]);
-  const {recipes } = useFetchRecipes(ingredients);
+	const { state, dispatch } = useContext(RecipeContext);
+	const [ingredients, setIngredients] = useState([]);
+	const { recipes } = useFetchRecipes(ingredients);
 
-  useEffect(() => {
-    if (recipes && recipes.length > 0) {
-      dispatch({ type: 'SET_RECIPES', payload: recipes });
-    }
-  }, [recipes, dispatch]);
+	useEffect(() => {
+		if (recipes && recipes.length > 0) {
+			dispatch({ type: 'SET_RECIPES', payload: recipes });
+		}
+	}, [recipes, dispatch]);
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 
@@ -55,11 +55,11 @@ export default function RecipeSearch() {
 	}, [inputValue]);
 
 	const handleSearch = (event, value) => {
-    event.preventDefault();
-    let newIngredients = value.map((v) => v.label);
-    setIngredients(newIngredients);
-    dispatch({ type: 'SET_INGREDIENTS', payload: newIngredients });
-  };
+		event.preventDefault();
+		let newIngredients = value.map((v) => v.label);
+		setIngredients(newIngredients);
+		dispatch({ type: 'SET_INGREDIENTS', payload: newIngredients });
+	};
 
 	useEffect(() => {
 		console.log(state.ingredients);
@@ -77,7 +77,7 @@ export default function RecipeSearch() {
 			<Typography component={'h1'} variant='h5'>
 				Search Recipes by Ingredient
 			</Typography>
-			<Stack spacing={3} sx={{ width: 500 }}>
+			<Stack spacing={3} sx={{ width: { xs: '100%', sm: '500px' } }}>
 				<Autocomplete
 					multiple
 					id='tags-standard'
