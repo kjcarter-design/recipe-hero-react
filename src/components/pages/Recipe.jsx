@@ -19,6 +19,7 @@ export default function Recipe() {
 		return <Typography variant='h4'>Recipe not found</Typography>;
 	}
 
+
 	return (
 		<Box
 			sx={{
@@ -79,7 +80,7 @@ export default function Recipe() {
 						<Ingredients ingredients={ingredients}/>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<Instructions instructions={recipe.instructions} />
+						<Instructions instructions={recipe.instructions} recipe={recipe} />
 					</Grid>
 				</Grid>
 			</Box>

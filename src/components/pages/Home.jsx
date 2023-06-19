@@ -4,7 +4,9 @@ import RecipeSearch from '../RecipeSearch';
 import useFetchRecipes from '../../hooks/useFetchRecipes';
 import { RecipeContext } from '../context/RecipeContext';
 import {
+	Alert,
 	Box,
+	CircularProgress,
 	SpeedDial,
 	SpeedDialAction,
 	SpeedDialIcon,
@@ -33,13 +35,37 @@ export default function Home() {
 		}
 	}, [state.ingredients, dispatch]);
 
+	const [searchPerformed, setSearchPerformed] = useState(false);
+
+  useEffect(() => {
+    if (state.ingredients.length > 0) {
+      setSearchPerformed(true);
+    }
+	}, [state.ingredients]);
+	
+	useEffect(() => {
+    if (searchPerformed && recipes.length === 0) {
+      setTimeout(() => {
+        const newIngredients = [...state.ingredients];
+        newIngredients.pop();
+        dispatch({ type: 'SET_INGREDIENTS', payload: newIngredients });
+        setSearchPerformed(false);
+      }, 5000);
+    }
+  }, [searchPerformed, recipes, dispatch, state.ingredients]);
+
+
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <CircularProgress/>;
 	}
 
 	if (error) {
-		return <div>Error: {error}</div>;
-	}
+    return <Alert severity="error">Error: {error}</Alert>;
+  }
+
+  if (searchPerformed && recipes.length === 0) {
+    return <Alert severity="info">No recipes found</Alert>;
+  }
 
 	const handleOpenDrawer = () => {
 		setDrawerOpen(true);
