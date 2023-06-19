@@ -1,28 +1,66 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import React from 'react';
+import React, { useState } from 'react';
+import {
+	Grid,
+	Paper,
+	Button,
+	useMediaQuery,
+	useTheme,
+	IconButton,
+	Box,
+} from '@mui/material';
 import RecipeCard from './RecipeCard';
-import Slider from 'react-slick';
-import { Box } from '@mui/material';
+import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material';
 
 export default function RecipeGallery({ recipes }) {
-	const settings = {
-		dots: true,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+	const handleNext = () => {
+		setCurrentIndex((currentIndex + 1) % recipes.length);
+	};
+
+	const handlePrevious = () => {
+		setCurrentIndex((currentIndex - 1 + recipes.length) % recipes.length);
 	};
 
 	return (
-		<Box p={2}>
-		<Slider {...settings}>
-			{recipes.map((recipe, index) => (
-				<Box key={index} mb={2}>
-					<RecipeCard recipe={recipe} />
+		<Grid container spacing={2} alignItems='center' justifyContent='center'>
+			{!isMobile && (
+				<Grid item xs={3}>
+					<RecipeCard
+						recipe={recipes[(currentIndex - 1 + recipes.length) % recipes.length]}
+						active={false}
+					/>
+				</Grid>
+			)}
+			<Grid item xs={1}>
+				<Box display='flex' justifyContent='center'>
+					<IconButton onClick={handlePrevious}>
+						<ArrowBackIos />
+					</IconButton>
 				</Box>
-			))}
-		</Slider>
-	</Box>
+			</Grid>
+			<Grid item xs={isMobile ? 10 : 4}>
+				<Paper elevation={3}>
+					<RecipeCard recipe={recipes[currentIndex]} active={true} />
+				</Paper>
+			</Grid>
+			<Grid item xs={1}>
+				<Box display='flex' justifyContent='center'>
+					<IconButton onClick={handleNext}>
+						<ArrowForwardIos />
+					</IconButton>
+				</Box>
+			</Grid>
+			{!isMobile && (
+				<Grid item xs={3}>
+					<RecipeCard
+						recipe={recipes[(currentIndex + 1) % recipes.length]}
+						active={false}
+					/>
+				</Grid>
+			)}
+		</Grid>
 	);
 }

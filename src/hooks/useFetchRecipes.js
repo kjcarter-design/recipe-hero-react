@@ -23,11 +23,11 @@ export default function useFetchRecipes(ingredients) {
             })
           )
         );
-
+  
         const allRecipes = responses.flatMap((response) =>
           response.data.results
         );
-
+  
         const filteredRecipes = allRecipes.filter((recipe) =>
           ingredients.every((ingredient) =>
             recipe.sections.some((section) =>
@@ -37,7 +37,7 @@ export default function useFetchRecipes(ingredients) {
             )
           )
         );
-
+  
         console.log('Dispatching recipes:', filteredRecipes);
         dispatch({ type: 'SET_RECIPES', payload: filteredRecipes });
         
@@ -47,11 +47,9 @@ export default function useFetchRecipes(ingredients) {
         setIsLoading(false);
       }
     };
-
-    if (ingredients?.length > 0) {
-      fetchRecipes();
-    }
+  
+    fetchRecipes();
   }, [ingredients, dispatch]);
-
+  
   return { isLoading, error };
 }
