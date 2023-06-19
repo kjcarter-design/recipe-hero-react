@@ -131,7 +131,9 @@ export default function RecipeCard({ recipe, loading, active }) {
 							component='div'
 							sx={{
 								color: '#fff',
-								fontWeight: 'bold',
+                fontWeight: 'bold',
+                position: 'relative',
+                margin: '1rem'
 							}}
 						>
 							{recipe.name}

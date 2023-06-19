@@ -8,16 +8,14 @@ import {
 	useTheme,
 	Chip,
 	Grid,
-	IconButton,
 } from '@mui/material';
 
 import axios from 'axios';
 import { FOOD_DB_API_KEY, FOOD_DB_APP_ID } from '../constants';
 import { RecipeContext } from './context/RecipeContext';
-import { Search } from '@mui/icons-material';
 
 export default function RecipeSearch() {
-	const { state, dispatch, ingredients, setIngredients } =
+	const { dispatch, ingredients, setIngredients } =
 		useContext(RecipeContext);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -44,19 +42,6 @@ export default function RecipeSearch() {
 			console.error('Failed to fetch ingredients', error);
 		}
 		return [];
-	};
-
-	const handleSearch = (event, value) => {
-		event.preventDefault();
-		setIngredients(value);
-		localStorage.setItem('ingredients', JSON.stringify(value));
-	};
-
-	const handleSearchClick = () => {
-		dispatch({
-			type: 'SET_INGREDIENTS',
-			payload: ingredients.map((ingredient) => ingredient.label),
-		});
 	};
 
 	useEffect(() => {
@@ -92,7 +77,12 @@ export default function RecipeSearch() {
 				Search Recipes by Ingredient
 			</Typography>
 
-			<Grid container spacing={1} sx={{ width: { xs: '100%', sm: '500px' } }} margin={1}>
+			<Grid
+				container
+				spacing={1}
+				sx={{ width: { xs: '100%', sm: '500px' } }}
+				margin={1}
+			>
 				<Grid item xs={10}>
 					<Autocomplete
 						multiple
@@ -106,7 +96,13 @@ export default function RecipeSearch() {
 						}
 						filterSelectedOptions
 						onInputChange={(event, value) => setInputValue(value)}
-						onChange={handleSearch}
+						onChange={(event, value) => {
+							setIngredients(value);
+							dispatch({
+								type: 'SET_INGREDIENTS',
+								payload: value.map((ingredient) => ingredient.label),
+							});
+						}}
 						value={ingredients}
 						renderTags={() => null}
 						renderInput={(params) => (
@@ -119,21 +115,9 @@ export default function RecipeSearch() {
 						)}
 					/>
 				</Grid>
-				<Grid item xs={2} sx={{
-							display: 'flex',
-							justifyContent: 'start',
-              alignItems: 'end',
-						}}>
-						<IconButton color='primary' onClick={handleSearchClick}>
-							<Search />
-						</IconButton>
-				</Grid>
 			</Grid>
 			{!isMobile && (
-        <Container sx={{ margin: 2, width: '30em' }}>
-          <Typography>
-            Ingredients:
-          </Typography>
+				<Container sx={{ margin: 2, width: '30em' }}>
 					{ingredients.map((ingredient, index) => (
 						<Chip
 							key={index}

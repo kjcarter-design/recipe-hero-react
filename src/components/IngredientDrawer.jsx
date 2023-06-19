@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { RecipeContext } from './context/RecipeContext';
 
 export default function IngredientDrawer({ open, onClose, isMobile }) {
-  const { state, dispatch, ingredients, setIngredients } = useContext(RecipeContext);
+  const { dispatch, ingredients, setIngredients } = useContext(RecipeContext);
 
 
   useEffect(() => {console.log(ingredients)}, [ingredients])

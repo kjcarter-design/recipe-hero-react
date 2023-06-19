@@ -5,14 +5,12 @@ import useFetchRecipes from '../../hooks/useFetchRecipes';
 import { RecipeContext } from '../context/RecipeContext';
 import {
 	Box,
-	Container,
 	SpeedDial,
 	SpeedDialAction,
 	SpeedDialIcon,
 	useMediaQuery,
 } from '@mui/material';
 import IngredientDrawer from '../IngredientDrawer';
-import styled from '@emotion/styled';
 
 export default function Home() {
 	const isMobile = useMediaQuery('(max-width:600px)');

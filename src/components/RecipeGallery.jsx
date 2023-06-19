@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
 	Grid,
 	Paper,
-	Button,
 	useMediaQuery,
 	useTheme,
 	IconButton,

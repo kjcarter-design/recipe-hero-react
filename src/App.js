@@ -8,22 +8,24 @@ import { Box } from '@mui/material';
 
 export default function App() {
 	return (
-		<Box sx={{ 
-			width: '100vw', 
-			height: '100vh', 
-			padding: 0, 
-			margin: 0,
-			display: 'flex',
-			flexDirection: 'column',
-			justifyContent: 'center',
-			alignItems: 'center'
-		}}>
-			<Header />
+		<Box
+			sx={{
+				width: '100vw',
+				height: '100vh',
+				padding: 0,
+				margin: 0,
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
 			<RecipeProvider>
 				<Router>
+					<Header />
 					<AppRoutes />
 				</Router>
 			</RecipeProvider>
 		</Box>
 	);
-};
+}
